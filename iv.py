@@ -13,6 +13,7 @@ def get_input_list():
         inputs = []
         for s in suffixes:
             inputs.extend(glob(os.path.join(input_, '*' + s)))
+        inputs = sorted(inputs)
     else:
         print('expected input to be file name or directory')
         exit(0)
@@ -38,10 +39,10 @@ def main():
         if key in EXIT_KEYS:
             break
         elif key in LEFT_KEYS:
-            img_index = img_index - 1 % len(inputs)
+            img_index = (img_index - 1) % len(inputs)
             I = cv2.imread(inputs[img_index])
         else:
-            img_index = img_index + 1 % len(inputs)
+            img_index = (img_index + 1) % len(inputs)
             I = cv2.imread(inputs[img_index])
 if __name__ == '__main__':
     main()
