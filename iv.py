@@ -2,9 +2,12 @@ import cv2
 from glob import glob
 import os
 import sys
+
 suffixes = ['.jpg', '.png']
 assert len(sys.argv) > 1, 'must have at least one input argument'
 input_ = sys.argv[1]
+
+
 def get_input_list():
     inputs = []
     if os.path.isfile(input_):
@@ -21,9 +24,13 @@ def get_input_list():
         print("Couldn't find any image files in specified path")
         exit(0)
     return inputs
+
+
 EXIT_KEYS = [27, ord('q')]
 LEFT_KEYS = [97, 81]
 RIGHT_KEYS = [100, 83]
+
+
 def main():
     inputs = get_input_list()
     win_name = 'iv minimal viewer'
@@ -33,16 +40,29 @@ def main():
     win_height = 720
     win_width = int(I.shape[1] * 720. / I.shape[0])
     cv2.resizeWindow(win_name, win_width, win_height)
+    prev_index = img_index
     while (True):
+
+        set_window_title(img_index, inputs, win_name)
+
         cv2.imshow(win_name, I)
+
         key = cv2.waitKey(0) & 0xFF
         if key in EXIT_KEYS:
             break
         elif key in LEFT_KEYS:
             img_index = (img_index - 1) % len(inputs)
-            I = cv2.imread(inputs[img_index])
         else:
             img_index = (img_index + 1) % len(inputs)
+        if prev_index != img_index:
             I = cv2.imread(inputs[img_index])
+
+
+def set_window_title(img_index, inputs, win_name):
+    cur_img_path = inputs[img_index]
+    window_caption = cur_img_path.split('/')[-1]
+    cv2.setWindowTitle(win_name, window_caption)
+
+
 if __name__ == '__main__':
     main()
