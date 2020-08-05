@@ -31,10 +31,16 @@ LEFT_KEYS = [97, 81]
 RIGHT_KEYS = [100, 83]
 
 
+def mouse_callback(event, x, y, flags, param):
+    if event == cv2.EVENT_LBUTTONDOWN:
+        print(x, y)
+
+
 def main():
     inputs = get_input_list()
     win_name = 'iv minimal viewer'
     cv2.namedWindow(win_name, cv2.WINDOW_NORMAL)
+    cv2.setMouseCallback(win_name, mouse_callback)
     img_index = 0
     I = cv2.imread(inputs[img_index])
     win_height = 720
