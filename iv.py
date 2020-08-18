@@ -42,6 +42,7 @@ def main():
     cv2.namedWindow(win_name, cv2.WINDOW_NORMAL)
     cv2.setMouseCallback(win_name, mouse_callback)
     img_index = 0
+    print(inputs[img_index])
     I = cv2.imread(inputs[img_index])
     win_height = 720
     win_width = int(I.shape[1] * 720. / I.shape[0])
@@ -58,10 +59,11 @@ def main():
             break
         elif key in LEFT_KEYS:
             img_index = (img_index - 1) % len(inputs)
-        else:
+        elif key in RIGHT_KEYS:
             img_index = (img_index + 1) % len(inputs)
         if prev_index != img_index:
             I = cv2.imread(inputs[img_index])
+            print(inputs[img_index])
 
 
 def set_window_title(img_index, inputs, win_name):
